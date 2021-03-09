@@ -1,6 +1,16 @@
+default: pylint pytest
+
+pylint:
+	find . -iname "*.py" -not -path "./tests/*" | xargs pylint --output-format=colorized; true
+
+pytest:
+	$ pytest -v --color=yes
+
+
 # ----------------------------------
 #          INSTALL & TEST
 # ----------------------------------
+
 install_requirements:
 	@pip install -r requirements.txt
 
@@ -11,6 +21,7 @@ black:
 	@black scripts/* handmadeML/*.py
 
 test:
+
 	@coverage run -m pytest tests/*.py
 	@coverage report -m --omit="${VIRTUAL_ENV}/lib/python*"
 

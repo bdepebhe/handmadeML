@@ -1,74 +1,58 @@
-# Data analysis
-- Document here the project: handmadeML
-- Description: Project Description
-- Data Source:
-- Type of analysis:
+# handmade-neural-network
+Personal challenge : re-code all the components of a deep learning algo (weights, biais, backprop, etc) and benchmark it with the same architecture on keras on a typical example
 
-Please document the project the better you can.
+## The code is inspired by the logic of keras, but is much simpler:
+  - common terminology and workflow (model instanciation, model.add_layer, model.fit, model.predict etc..) but simplified (no .compile method for instance)
+  - less features implemented
+  - less checks, exceptions, tricky cases allowed, etc.
+  - probably much less computionaly efficient
 
-# Startup the project
+## We first focus on a classical dense neural network
+## The following features are implemented :
+  - 5 activation functions:
+    - relu, tanh (mostly for hidden layers)
+    - linear (for regression output)
+    - sigmoid, softmax (for classifiction outputs)
+  - 4 loss functions:
+    - mse, mae (for regression tasks)
+    - binary crossentropy (for binary classification tasks)
+    - multiclass crossentropy (for multiclassification)
+  - gradient descent with back-propagation
+  - simple GrandientDescent optimizer only
+    - stochastic or mini-batch
+    - adjustable learning rate
+    - without momentum
+  - metric computation at the end of each batch/epoch for monitoring during training
+    - only loss functions
+  - weights and bias initializers : zeros, ones and glorot_uniform only
+ 
+## To be coded later :
+  - regularization:
+     - l1, l2, elasticnet
+     - on kernels (weights)
 
-The initial setup.
-
-Create virtualenv and install the project:
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv ~/venv ; source ~/venv/bin/activate ;\
-    pip install pip -U; pip install -r requirements.txt
-```
-
-Unittest test:
-```bash
-make clean install test
-```
-
-Check for handmadeML in gitlab.com/{group}.
-If your project is not set please add it:
-
-- Create a new project on `gitlab.com/{group}/handmadeML`
-- Then populate it:
-
-```bash
-##   e.g. if group is "{group}" and project_name is "handmadeML"
-git remote add origin git@github.com:{group}/handmadeML.git
-git push -u origin master
-git push -u origin --tags
-```
-
-Functionnal test with a script:
-
-```bash
-cd
-mkdir tmp
-cd tmp
-handmadeML-run
-```
-
-# Install
-
-Go to `https://github.com/{group}/handmadeML` to see the project, manage issues,
-setup you ssh public key, ...
-
-Create a python3 virtualenv and activate it:
-
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv -ppython3 ~/venv ; source ~/venv/bin/activate
-```
-
-Clone the project and install it:
-
-```bash
-git clone git@github.com:{group}/handmadeML.git
-cd handmadeML
-pip install -r requirements.txt
-make clean install test                # install and test
-```
-Functionnal test with a script:
-
-```bash
-cd
-mkdir tmp
-cd tmp
-handmadeML-run
-```
+  - early stopping on validation data
+  - training history tracking
+  - momentum for SGD optimizer
+  - other metrics (accuracy, roc_auc, etc.)
+  - other optimizers
+    - adam
+  
+## To be coded much later :
+  - dropout
+  - regularization on biais and activity of the neurons
+  - other optimizers
+    - rmsprop
+  
+## To be never coded :
+  - padding
+  - CNN specifics:
+    - conv2D layers
+    - kernels
+    - max pooling layers
+    - flatting layer
+  - RNN specifics:
+    - simple RNN layer
+    - masking layer
+    - LSTM layer
+    
