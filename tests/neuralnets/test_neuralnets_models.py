@@ -328,7 +328,7 @@ class Test_fit_method_with_adam(unittest.TestCase):
     my_nn.fit(X,y, loss='mse',optimizer_type='adam', batch_size=7, n_epochs=2)
 
     self.assertTrue (my_nn.score(X,y,'mse') < 0.5,\
-        "not converged with adam optimizer on a trivial regression")
+        f"not converged with adam optimizer on a trivial regression : loss={my_nn.score(X,y,'mse')}")
 
 #---------------------------------------------------------------------------
 

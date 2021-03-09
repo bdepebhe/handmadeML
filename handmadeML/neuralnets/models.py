@@ -4,7 +4,8 @@ model class itself'''
 import numpy as np
 import seaborn as sns
 
-from .utils import compute_activation,compute_activation_derivative,compute_metric
+from .utils import compute_activation,compute_activation_derivative
+from ..common.utils import compute_metric
 
 
 from ..optimizers.adam import AdamOptimizer
@@ -204,9 +205,10 @@ The network input_dim is {self.input_dim}')
             self.loss=loss
 
         if optimizer_type == 'adam':
-            optimizer = AdamOptimizer (self.weights, self.bias,
+            optimizer = AdamOptimizer ((self.weights, self.bias),
                                         alpha_init=alpha_init, beta_1=beta_1,
                                         beta_2=beta_2, epsilon=epsilon)
+            #print(optimizer.v)
 
         X = np.array(X)
         y = np.array(y)
@@ -232,6 +234,7 @@ The network input_dim is {self.input_dim}')
                                                      (mini_batch_index +1) * batch_size],
                                                    y[mini_batch_index * batch_size :\
                                                      (mini_batch_index +1) * batch_size])
+
                 if optimizer_type == 'sgd':
                     #compute the update directly
                     weights_update = [-learning_rate * grad for grad in gradient_weights]
@@ -239,8 +242,8 @@ The network input_dim is {self.input_dim}')
 
                 elif optimizer_type == 'adam':
                     #compute the update with the optimizer
-                    weights_update, bias_update = optimizer.get_update(gradient_weights,
-                                                                       gradient_bias)
+                    weights_update, bias_update = optimizer.get_update((gradient_weights,
+                                                                       gradient_bias))
 
                 else:
                     raise ValueError(f'unsupported optimizer type {optimizer_type}')
