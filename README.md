@@ -1,14 +1,18 @@
-# handmade-neural-network
+# handmadeML
+This package is created to merge to sub-projects : handmade-neural-network and handmade-machine-learning
+The components and logics from both projects should converge
+
+## neural-networks
 Personal challenge : re-code all the components of a deep learning algo (weights, biais, backprop, etc) and benchmark it with the same architecture on keras on a typical example
 
-## The code is inspired by the logic of keras, but is much simpler:
+### The code is inspired by the logic of keras, but is much simpler:
   - common terminology and workflow (model instanciation, model.add_layer, model.fit, model.predict etc..) but simplified (no .compile method for instance)
   - less features implemented
   - less checks, exceptions, tricky cases allowed, etc.
   - probably much less computionaly efficient
 
-## We first focus on a classical dense neural network
-## The following features are implemented :
+### We first focus on a classical dense neural network
+### The following features are implemented :
   - 5 activation functions:
     - relu, tanh (mostly for hidden layers)
     - linear (for regression output)
@@ -26,7 +30,7 @@ Personal challenge : re-code all the components of a deep learning algo (weights
     - only loss functions
   - weights and bias initializers : zeros, ones and glorot_uniform only
  
-## To be coded later :
+### To be coded later :
   - regularization:
      - l1, l2, elasticnet
      - on kernels (weights)
@@ -38,13 +42,13 @@ Personal challenge : re-code all the components of a deep learning algo (weights
   - other optimizers
     - adam
   
-## To be coded much later :
+### To be coded much later :
   - dropout
   - regularization on biais and activity of the neurons
   - other optimizers
     - rmsprop
   
-## To be never coded :
+### To be never coded :
   - padding
   - CNN specifics:
     - conv2D layers
