@@ -63,7 +63,7 @@ jobs:
   # # - keep in mind you also need to configure Heroku HEROKU_API_KEY and HEROKU_EMAIL in GitHub secrets
   # # - and replace REPLACE_WITH_YOUR_HEROKU_APP_NAME in this file with the name of your Heroku app
 
-  # deploy_heroku:
+  deploy_heroku:
 
     runs-on: ubuntu-latest
 
