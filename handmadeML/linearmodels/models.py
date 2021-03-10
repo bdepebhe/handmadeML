@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-from .utils import compute_hinge,compute_penalty,compute_cost,compute_line_points
+from .utils import compute_cost,compute_line_points
 from ..common.utils import compute_metric
 
 
@@ -25,7 +25,10 @@ class LinearClassifier ():
     '''
     def __init__ (self, input_dim=0, param_initializer='random_uniform'):
         self.input_dim=input_dim
-        self.params=np.random.uniform(size=(input_dim + 1,))
+        if param_initializer=='random_uniform':
+            self.params=np.random.uniform(size=(input_dim + 1,))
+        else:
+            raise ValueError('Unknown param initializer type')
         self.cost_history=[]
 
     def set_input_dim (self, input_dim):

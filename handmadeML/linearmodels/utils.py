@@ -25,25 +25,24 @@ def compute_hinge(x, y, w, b, loss_type='hinge', derivative=False):
     if loss_type=='hinge':
         if not derivative:
             return np.maximum(0, 1-(np.dot(x,w)+b)*y).mean()
-        else:
-            hinge_values=np.expand_dims(1-y*(np.dot(x,w)+b),axis=1)
-            positives=(hinge_values>0)
-            dloss_dw=-(positives*(np.expand_dims(y,axis=1)*x)).mean(axis=0)
-            dloss_db=-(positives*np.expand_dims(y,axis=1)).mean(axis=0)
-            return np.concatenate((dloss_dw, dloss_db),axis=0)
 
-    elif loss_type=='squared_hinge':
+        hinge_values=np.expand_dims(1-y*(np.dot(x,w)+b),axis=1)
+        positives=(hinge_values>0)
+        dloss_dw=-(positives*(np.expand_dims(y,axis=1)*x)).mean(axis=0)
+        dloss_db=-(positives*np.expand_dims(y,axis=1)).mean(axis=0)
+        return np.concatenate((dloss_dw, dloss_db),axis=0)
+
+    if loss_type=='squared_hinge':
         if not derivative:
             return np.square(np.maximum(0, 1-(np.dot(x,w)+b)*y)).mean()
-        else:
-            hinge_values=np.expand_dims(1-y*(np.dot(x,w)+b),axis=1)
-            positives=(hinge_values>0)
-            dloss_dw=-2*(positives*(np.expand_dims(y,axis=1)*hinge_values*x)).mean(axis=0)
-            dloss_db=-2*(positives*np.expand_dims(y,axis=1)*hinge_values).mean(axis=0)
-            return np.concatenate((dloss_dw, dloss_db),axis=0)
 
-    else:
-            raise ValueError(f'unknown loss_type {loss_type}')
+        hinge_values=np.expand_dims(1-y*(np.dot(x,w)+b),axis=1)
+        positives=(hinge_values>0)
+        dloss_dw=-2*(positives*(np.expand_dims(y,axis=1)*hinge_values*x)).mean(axis=0)
+        dloss_db=-2*(positives*np.expand_dims(y,axis=1)*hinge_values).mean(axis=0)
+        return np.concatenate((dloss_dw, dloss_db),axis=0)
+
+    raise ValueError(f'unknown loss_type {loss_type}')
 
 
 
@@ -54,18 +53,17 @@ def compute_penalty(w,penalty_type='l2', derivative=False):
             return 0.5 * np.dot(w.T,w)
         return w
 
-    elif penalty_type=='l1':
+    if penalty_type=='l1':
         if not derivative:
             return np.absolute(w).sum()
         return np.divide(w, np.absolute(w))
 
-    elif penalty_type==None:
+    if penalty_type==None:
         if not derivative:
             return 0
         return np.zeros_like(w)
 
-    else:
-        raise ValueError(f'unknown penalty_type {penalty_type}')
+    raise ValueError(f'unknown penalty_type {penalty_type}')
 
 
 
@@ -94,9 +92,8 @@ x.shape= {x.shape} and w.size= {w.size}')
     if derivative==False:
         return C * compute_hinge(x, y, w, b, loss_type, derivative=False)\
                + compute_penalty(w, penalty_type, derivative=False)
-    else:
-        return C * compute_hinge(x, y, w, b, loss_type, derivative=True)\
-        + np.concatenate((compute_penalty(w, penalty_type, derivative=True),
+    return C * compute_hinge(x, y, w, b, loss_type, derivative=True)\
+           + np.concatenate((compute_penalty(w, penalty_type, derivative=True),
                                   np.zeros((1,))),
                                  axis=0)
 
@@ -116,4 +113,3 @@ def compute_line_points(a,b,c):
     yroot1=(-c-a*xroot1)/b
     yroot2=(-c-a*xroot2)/b
     return [xroot1,xroot2], [yroot1,yroot2]
-

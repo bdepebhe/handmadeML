@@ -4,6 +4,9 @@
 import numpy as np
 
 class AdamOptimizer():
+    '''Adam Optimzer object designed primarly for neuralnets
+    (so for list of arrays of params) but usable by linear models,
+    altrough adam was devoped for neuralnets'''
     def __init__(self, params, alpha_init=0.001, beta_1=0.9,
              beta_2=0.999, epsilon=1e-8):
         '''params :
