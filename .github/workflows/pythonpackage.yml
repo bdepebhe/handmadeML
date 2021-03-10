@@ -75,4 +75,3 @@ jobs:
         heroku_app_name: "handmademl" # Must be unique in Heroku
         heroku_email: ${{secrets.HEROKU_EMAIL}}
         branch: master
-
