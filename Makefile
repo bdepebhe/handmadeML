@@ -22,7 +22,7 @@ black:
 
 test:
 
-	@coverage run -m pytest -k 'Test_' tests/*
+	@coverage run -m pytest tests/*
 	@coverage report -m --omit="${VIRTUAL_ENV}/lib/python*"
 
 ftest:
