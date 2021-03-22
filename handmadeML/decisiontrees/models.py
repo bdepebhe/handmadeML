@@ -9,8 +9,7 @@ from .utils import node_construction, node_navigation
 
 class DecisionTreeClassifier ():
     '''equivalent to sklearn with limited options:
-    binary classification 0/1 only
-    handles numeric data only
+    handles numerical data only
     criterion : gini only
     splitter  : best only
     max_depth : None only (nodes are expanded until
