@@ -89,7 +89,7 @@ y.shape= {y.shape} and x.shape= {x.shape}')
 x.shape= {x.shape} and w.size= {w.size}')
 
 
-    if derivative==False:
+    if derivative is False:
         return C * compute_hinge(x, y, w, b, loss_type, derivative=False)\
                + compute_penalty(w, penalty_type, derivative=False)
     return C * compute_hinge(x, y, w, b, loss_type, derivative=True)\

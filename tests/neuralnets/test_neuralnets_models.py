@@ -1,7 +1,7 @@
 import unittest
 
-import sys
-sys.path.append('../')
+#import sys
+#sys.path.append('../')
 
 from handmadeML.neuralnets.models import *
 
@@ -132,7 +132,6 @@ class Test_predict_backprop_mode(unittest.TestCase):
     my_nn.add_dense_layer(3, 'linear', weights_initializer='ones')
 
     outputs = my_nn.predict([2,3,2,3,4], keep_hidden_layers=True)
-    n_outputs = len(np.array(outputs))
     output_type = type(outputs)
     self.assertTrue (output_type == tuple,\
         f"predict method with keep_hidden_layers must return a tuple. type is {output_type}")
@@ -143,8 +142,7 @@ class Test_predict_backprop_mode(unittest.TestCase):
     my_nn.add_dense_layer(3, 'linear', weights_initializer='ones')
 
     outputs = my_nn.predict([2,3,2,3,4], keep_hidden_layers=True)
-    n_outputs = len(np.array(outputs))
-    output_type = type(outputs)
+    n_outputs = len(outputs)
 
     self.assertTrue (n_outputs == 2,\
         f"predict method with keep_hidden_layers must return 2 output. here returns {n_outputs}")
@@ -155,8 +153,6 @@ class Test_predict_backprop_mode(unittest.TestCase):
     my_nn.add_dense_layer(3, 'linear', weights_initializer='ones')
 
     outputs = my_nn.predict([2,3,2,3,4], keep_hidden_layers=True)
-    n_outputs = len(np.array(outputs))
-    output_type = type(outputs)
     layers_outputs, layers_derivatives = outputs
 
     self.assertTrue (len(layers_outputs) == 2,\
@@ -168,8 +164,6 @@ class Test_predict_backprop_mode(unittest.TestCase):
     my_nn.add_dense_layer(3, 'linear', weights_initializer='ones')
 
     outputs = my_nn.predict([2,3,2,3,4], keep_hidden_layers=True)
-    n_outputs = len(np.array(outputs))
-    output_type = type(outputs)
     layers_outputs, layers_derivatives = outputs
 
     self.assertTrue (len(layers_derivatives) == 1,\
@@ -181,8 +175,6 @@ class Test_predict_backprop_mode(unittest.TestCase):
     my_nn.add_dense_layer(3, 'linear', weights_initializer='ones')
 
     outputs = my_nn.predict([2,3,2,3,4], keep_hidden_layers=True)
-    n_outputs = len(np.array(outputs))
-    output_type = type(outputs)
     layers_outputs, layers_derivatives = outputs
 
     self.assertTrue ((layers_outputs[1] == np.array([[14., 14., 14.]])).all(),\
@@ -194,8 +186,6 @@ class Test_predict_backprop_mode(unittest.TestCase):
     my_nn.add_dense_layer(3, 'linear', weights_initializer='ones')
 
     outputs = my_nn.predict([2,3,2,3,4], keep_hidden_layers=True)
-    n_outputs = len(np.array(outputs))
-    output_type = type(outputs)
     layers_outputs, layers_derivatives = outputs
 
     self.assertTrue ((layers_derivatives[0] == np.array([[1., 1., 1.]])).all(),\
@@ -215,8 +205,8 @@ class Test_backpropagation(unittest.TestCase):
     my_nn.set_loss('mse')
 
     outputs = my_nn.compute_backpropagation(np.array([[1,2],[2,3],[3,4]]), np.array([4,5,6]))
-    n_outputs = len(np.array(outputs))
     output_type = type(outputs)
+
     self.assertTrue (output_type == tuple,\
         f"backpropagation method must return a tuple. type is {output_type}")
 
@@ -228,8 +218,7 @@ class Test_backpropagation(unittest.TestCase):
     my_nn.set_loss('mse')
 
     outputs = my_nn.compute_backpropagation(np.array([[1,2],[2,3],[3,4]]), np.array([4,5,6]))
-    n_outputs = len(np.array(outputs))
-    output_type = type(outputs)
+    n_outputs = len(outputs)
 
     self.assertTrue (n_outputs == 2,\
         f"backpropagation method must return 2 output. here returns {n_outputs}")
@@ -242,9 +231,6 @@ class Test_backpropagation(unittest.TestCase):
     my_nn.set_loss('mse')
 
     outputs = my_nn.compute_backpropagation(np.array([[1,2],[2,3],[3,4]]), np.array([4,5,6]))
-    n_outputs = len(np.array(outputs))
-    output_type = type(outputs)
-
     gradient_weights, gradient_bias = outputs
 
     self.assertTrue (len(gradient_weights) == 2,\
@@ -258,8 +244,6 @@ class Test_backpropagation(unittest.TestCase):
     my_nn.set_loss('mse')
 
     outputs = my_nn.compute_backpropagation(np.array([[1,2],[2,3],[3,4]]), np.array([4,5,6]))
-    n_outputs = len(np.array(outputs))
-    output_type = type(outputs)
 
     gradient_weights, gradient_bias = outputs
 
@@ -274,8 +258,6 @@ class Test_backpropagation(unittest.TestCase):
     my_nn.set_loss('mse')
 
     outputs = my_nn.compute_backpropagation(np.array([[1,2],[2,3],[3,4]]), np.array([4,5,6]))
-    n_outputs = len(np.array(outputs))
-    output_type = type(outputs)
 
     gradient_weights, gradient_bias = outputs
 
@@ -291,8 +273,6 @@ class Test_backpropagation(unittest.TestCase):
     my_nn.set_loss('mse')
 
     outputs = my_nn.compute_backpropagation(np.array([[1,2],[2,3],[3,4]]), np.array([4,5,6]))
-    n_outputs = len(np.array(outputs))
-    output_type = type(outputs)
 
     gradient_weights, gradient_bias = outputs
 

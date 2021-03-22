@@ -1,12 +1,11 @@
 '''This module contains decision trees models'''
 
-import numpy as np
+#import numpy as np
 import pandas as pd
 
-from .utils import *
-from ..common.utils import compute_metric
-from ..optimizers.adam import AdamOptimizer
-
+from .utils import node_construction, node_navigation
+#from ..common.utils import compute_metric
+#from ..optimizers.adam import AdamOptimizer
 
 class DecisionTreeClassifier ():
     '''equivalent to sklearn with limited options:
@@ -28,10 +27,13 @@ class DecisionTreeClassifier ():
     min_impurity_decrease : 0 only
     min_impurity_split : 0 only
     '''
-    def __init__(self, min_samples_split):
+    def __init__(self, max_depth=10000, min_samples_split=2):
+        self.max_depth=max_depth
         self.min_samples_split=min_samples_split
         self.tree={'level':0,
                    'type':'root',
+                   'gini':None,
+                   'samples_count':None,
                    'feature':None,
                    'threshold':None,
                    'left':None,
@@ -39,29 +41,18 @@ class DecisionTreeClassifier ():
                    }
 
     def fit(self, X_train, y_train):
-        def node_construction(subtree,subX,suby):
-            'modify tree ? to be tested'
-            splits={}
-            for index,col in subX.iteritems():
-                splits[index]=np.sort(col.sample(1000,replace=True).unique())
-                splits[index]=list((splits[index][1:]+splits[index][:-1])/2)
-            splits=[[(key,threshold) for threshold in value] for key,value in splits.items()]
-            splits=[y for x in splits for y in x]
+        '''y_train : pd.Series. If DataFrame, the 1st column will be used as target
+           X_train : DataFrame or 2D array'''
+        if isinstance(y_train,pd.core.frame.DataFrame):
+            y_train=y_train.iloc[:,0]
+        X_train=pd.DataFrame(X_train)
+        self.tree['gini']=1-((y_train.groupby(y_train).count()/y_train.count())**2).sum()
+        self.tree['samples_count']=y_train.count()
 
-            for split in splits:
-                mask=subX[split[0]]>split[1]
-                y_left=suby[mask]
-                y_right=suby[-mask]
-
-        node_construction(self.tree, X_train, y_train, min_samples_split=self.min_samples_split)
+        node_construction(self.tree, X_train, y_train,
+                          max_depth=self.max_depth,
+                          min_samples_split=self.min_samples_split)
 
     def predict(self, X_test):
-        def node_navigation(subtree, X_sample):
-            '''X_sample : df with a single line'''
-            if tree['type']=='leaf':
-                return subtree['category']
-            if X_sample[subtree['feature']]>subtree['threshold']:
-                return node_navigation(subtree['right'], X_sample)
-            return node_navigation(subtree['left'], X_sample)
-
-        return X.apply(lambda x: node_navigation(self.tree, x), axis=1)
+        X_test=pd.DataFrame(X_test)
+        return X_test.apply(lambda x: node_navigation(self.tree, x), axis=1)

@@ -1,7 +1,7 @@
 import unittest
 
-import sys
-sys.path.append('../')
+#import sys
+#sys.path.append('../')
 
 from handmadeML.optimizers.adam import *
 
